@@ -9,9 +9,9 @@ export type ApiMethodDeclaration<ParamsData, ResponseData, DisplayName = ''> = {
 };
 
 
-export type RequestConfig = RequestInit;
-
-export type ApiError = AxiosError;
+export type RequestConfig = RequestInit & {
+    url: string;
+};
 
 type InitApiConfig<P> = {
     /**
@@ -19,14 +19,20 @@ type InitApiConfig<P> = {
      */
     getConfigExtenders(extenders: ConfigExtendersCollection): ConfigExtendersCollection<P>;
     /**
-     * Response handlers
+     * Success response handlers
      */
-    resultHandlers?: Function[];
+    successResponseHandlers?: Function[];
+    errorResponseHandlers?: Function[];
 };
 
 export function initApi<T, P>(
     apiDeclaration: ApiDeclaration<T>,
-    { getConfigExtenders, resultHandlers }: InitApiConfig<P>,
+    {
+        getConfigExtenders,
+        requstStartedHandler,
+        successResponseHandlers,
+        errorResponseHandlers,
+    }: InitApiConfig<P>,
 ) {
     const api = {} as Api<T, P>;
 
@@ -35,43 +41,37 @@ export function initApi<T, P>(
     // Wrap with axios and apply config extenders
     Object.keys(apiDeclaration).forEach((key) => {
         api[key] = async (params, { ...transportConfig } = {} as TransportConfig) => {
-            let axiosConfig: AxiosRequestConfig = apiDeclaration[key](params);
-
-            axiosConfig = {
-                ...axiosConfig,
+            let requestConfig: RequestConfig = {
+                ...apiDeclaration[key](params),
                 ...transportConfig,
-            };
+            }
 
             if (!configExtender) {
                 configExtender = getConfigExtenders(createConfigExtendersCollection());
             }
 
-            axiosConfig = configExtender(axiosConfig, transportConfig as P);
+            requestConfig = configExtender(requestConfig, transportConfig as P);
 
             // TODO: request started handler
 
             try {
-                let result = await fetch(axiosConfig);
+                let result = await fetch(requestConfig.url, requestConfig);
 
-                if (resultHandlers) {
-                    resultHandlers.forEach((handler) => {
-                        result = handler(result);
+                if (successResponseHandlers) {
+                    successResponseHandlers.forEach((handler) => {
+                        result = handler(requestConfig,  result, );
                     });
                 }
-                
-                // TODO: response success handler
 
                 return result;
             } catch (error) {
                 let errorResult = error;
 
-                if (resultHandlers) {
-                    resultHandlers.forEach((handler) => {
+                if (errorResponseHandlers) {
+                    errorResponseHandlers.forEach((handler) => {
                         errorResult = handler(errorResult);
                     });
                 }
-
-                // TODO: response error handler
 
                 throw error;
             }

@@ -12,9 +12,6 @@
     "typescript": "^4.9.4"
   },
   "scripts": {
-    "build": "run-p clean run-s build:api",
-    "build:api": "tsc -b ./packages/tsconfig.api-base.json",
-    "bootstrap": "lerna bootstrap",
     "clean": "lerna run --parallel clean",
     "release": "lerna publish"
   }

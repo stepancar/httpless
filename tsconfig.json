@@ -10,7 +10,8 @@
         "target": "es6",
         "sourceMap": true,
         "lib": [
-            "es6"
+            "ESNext",
+            "DOM",
         ]
     },
     "exclude": [

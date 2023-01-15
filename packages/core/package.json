@@ -1,7 +1,7 @@
 {
   "name": "@httpless/core",
   "version": "0.0.0",
-  "description": "> TODO: description",
+  "description": "Httpless core library, privides APIDeclaration interface",
   "author": "stepancar <istepancar@gmail.com>",
   "homepage": "https://github.com/stepancar/httpless#readme",
   "license": "ISC",

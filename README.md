@@ -1,3 +1,3 @@
 # httpless
 
-Define definitions for your http requests once and forget about thinking about http in your code, tests, mocks
+The main idea behind "httpless" is to allow developers to make HTTP calls without having to think about the underlying details of the protocol. The library provides a way to define HTTP declarations only once, abstracting away the complexities of making the calls throughout the codebase. This means that developers can focus on their application logic and not have to worry about the specifics of making HTTP requests. The library also provides an easy way to test the application by using nock and Cypress, which allow the developer to mock functions instead of intercepting requests, further reducing the need to think about HTTP in the code. Overall, "httpless" aims to make working with HTTP calls as easy and intuitive as possible, allowing developers to focus on what's important - their application logic.

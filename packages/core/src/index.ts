@@ -1,4 +1,6 @@
-import { RequiredKeys } from 'utility-types';
+type RequiredKeys<T> = {
+    [K in keyof T]-?: {} extends Pick<T, K> ? never : K;
+}[keyof T];
 
 /**
  * Descibes a function which maps function parameters to http request config
@@ -29,7 +31,6 @@ export function initApi<T, P>(
     apiDeclaration: ApiDeclaration<T>,
     {
         getConfigExtenders,
-        requstStartedHandler,
         successResponseHandlers,
         errorResponseHandlers,
     }: InitApiConfig<P>,
@@ -55,8 +56,9 @@ export function initApi<T, P>(
             // TODO: request started handler
 
             try {
-                let result = await fetch(requestConfig.url, requestConfig);
+                const response = await fetch(requestConfig.url, requestConfig);
 
+                let result = await response.json();
                 if (successResponseHandlers) {
                     successResponseHandlers.forEach((handler) => {
                         result = handler(requestConfig,  result, );
@@ -98,20 +100,26 @@ export type Api<T, AdditionalParams = {}> = {
     [P in keyof T]: MakeServiceFromServiceDeclaration<T[P], AdditionalParams, P>;
 };
 
+type ExtractApiMethodParamsType<T> = T extends ApiMethodDeclaration<infer P, infer D> ? P : any;
+
+type ExtractApiMethodResponseDataType<T> = T extends ApiMethodDeclaration<infer P, infer D>
+    ? D
+    : any;
+
 export type MakeServiceFromServiceDeclaration<T, AdditionalParams, DisplayName> =
     RequiredKeys<AdditionalParams> extends never
         ? {
               (
                   params: ExtractApiMethodParamsType<T>,
                   transportConfig?: TransportConfig & AdditionalParams,
-              ): AxiosPromise<ExtractApiMethodResponseDataType<T>>;
+              ): Promise<ExtractApiMethodResponseDataType<T>>;
               displayName: DisplayName;
           }
         : {
               (
                   params: ExtractApiMethodParamsType<T>,
                   transportConfig: TransportConfig & AdditionalParams,
-              ): AxiosPromise<ExtractApiMethodResponseDataType<T>>;
+              ): Promise<ExtractApiMethodResponseDataType<T>>;
               displayName: DisplayName;
           };
 

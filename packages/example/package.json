@@ -1,6 +1,6 @@
 {
   "name": "@httpless/example",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -8,5 +8,5 @@
   },
   "author": "",
   "license": "ISC",
-  "gitHead": "36e9f1daf5babdccd1d1fdbf2b805a57af040249"
+  "gitHead": "2a5706987dec544ecc6a3acaa0d5bccd6f9ef1c4"
 }

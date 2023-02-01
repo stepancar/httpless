@@ -1,6 +1,6 @@
 {
   "name": "@httpless/core",
-  "version": "0.0.0",
+  "version": "1.1.0",
   "description": "Httpless core library, provides APIDeclaration interface",
   "author": "stepancar <istepancar@gmail.com>",
   "homepage": "https://github.com/stepancar/httpless#readme",

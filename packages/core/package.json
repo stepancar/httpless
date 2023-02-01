@@ -1,6 +1,6 @@
 {
   "name": "@httpless/core",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Httpless core library, provides APIDeclaration interface",
   "author": "stepancar <istepancar@gmail.com>",
   "homepage": "https://github.com/stepancar/httpless#readme",
@@ -26,5 +26,6 @@
   },
   "bugs": {
     "url": "https://github.com/stepancar/httpless/issues"
-  }
+  },
+  "gitHead": "36e9f1daf5babdccd1d1fdbf2b805a57af040249"
 }

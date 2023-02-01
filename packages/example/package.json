@@ -1,11 +1,12 @@
 {
   "name": "@httpless/example",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "gitHead": "36e9f1daf5babdccd1d1fdbf2b805a57af040249"
 }

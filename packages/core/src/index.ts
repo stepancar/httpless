@@ -19,7 +19,7 @@ type InitApiConfig<P> = {
     /**
      * Lazy initialization of config extenders
      */
-    getConfigExtenders(extenders: ConfigExtendersCollection): ConfigExtendersCollection<P>;
+    getConfigExtenders?(extenders: ConfigExtendersCollection): ConfigExtendersCollection<P>;
     /**
      * Success response handlers
      */
@@ -47,6 +47,8 @@ export function initApi<T, P>(
                 ...transportConfig,
             }
 
+            console.log('CALLL')
+
             if (!configExtender) {
                 configExtender = getConfigExtenders(createConfigExtendersCollection());
             }
@@ -57,7 +59,7 @@ export function initApi<T, P>(
 
             try {
                 const response = await fetch(requestConfig.url, requestConfig);
-
+                console.log(response)
                 let result = await response.json();
                 if (successResponseHandlers) {
                     successResponseHandlers.forEach((handler) => {

@@ -1,4 +1,7 @@
+import fetchMock from 'jest-fetch-mock';
 import { ApiMethodDeclaration, initApi } from './index';
+
+fetchMock.enableMocks();
 
 describe('initApi', () => {
     const testApiMethod: ApiMethodDeclaration<{}, {}> = (params: {}) => ({
@@ -13,7 +16,13 @@ describe('initApi', () => {
 
     const testApi = initApi(testApiDeclaration, {});
 
-    it('should call', async() => {
-        await expect(() => testApi.testApiMethod({})).rejects;
+    beforeEach(() => {
+        fetchMock.resetMocks();
+    });
+
+    it('should call fetch', async() => {
+        fetchMock.mockOnce('{"test": 222}');
+
+        await expect(testApi.testApiMethod({})).resolves.toEqual({test: 222})
     });
 });

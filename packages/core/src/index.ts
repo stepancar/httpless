@@ -49,12 +49,6 @@ export function initApi<T, P>(
 
             console.log('CALLL')
 
-            if (!configExtender) {
-                configExtender = getConfigExtenders(createConfigExtendersCollection());
-            }
-
-            requestConfig = configExtender(requestConfig, transportConfig as P);
-
             // TODO: request started handler
 
             try {

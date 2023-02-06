@@ -41,6 +41,7 @@ function handleFormSubmit() {
     const userName = document.querySelector('#userName');
     const userAge = document.querySelector('#age');
 
+    // call function, don't think about http, body, headers and etc, just pass parameters
     clientApi.createClient({ name: userName, age: userAge }) // typesafety
         .then((data) => {
             alert(data); // typesafety for response

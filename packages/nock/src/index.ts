@@ -1,0 +1,1 @@
+export { mockApiMethod, initServicesMock } from './mock-api-method';

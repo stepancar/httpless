@@ -51,3 +51,41 @@ function handleFormSubmit() {
         });
 }
 ```
+
+```ts
+// mocks on your nodejs server
+// notice that mocks are isolated from http, have full type safety
+
+import { mockApiMethod } from '@httpless/nock';
+import { clientApi } from './api';
+
+// success
+mockApiMethod({
+    apiMethodDeclaration: clientApi.createClient,
+    params: {
+        name: 'Bob',
+        age: 20
+    },
+    result: {
+        data: {
+            result: 'Created!!!'
+        },
+        delay: 1000,
+    }
+});
+
+// fail
+mockApiMethod({
+    apiMethodDeclaration: clientApi.createClient,
+    params: {
+        name: 'Alice',
+    },
+    result: {
+        data: {
+            error: 'Alice already registered'
+        },
+        delay: 200,
+        httpStatusCode: 403
+    }
+});
+```
